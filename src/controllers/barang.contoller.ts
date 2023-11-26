@@ -1,32 +1,14 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import { inputBarangValidation } from '../validations/barang.validation'
+import { getBarang } from '../services/barang.service'
 
-export const getAllBarang = (
+export const getAllBarang = async (
   req: Request,
   res: Response,
   next: NextFunction
-): any => {
+): Promise<any> => {
   try {
-    const data = [
-      {
-        id: 1,
-        nama: 'Barang 1',
-        jumlah: 10,
-        harga: 10000
-      },
-      {
-        id: 2,
-        nama: 'Barang 2',
-        jumlah: 20,
-        harga: 20000
-      },
-      {
-        id: 3,
-        nama: 'Barang 3',
-        jumlah: 30,
-        harga: 30000
-      }
-    ]
+    const data = await getBarang()
     return res.status(200).json({
       error: null,
       message: 'Pengambilan semua data berhasil',
