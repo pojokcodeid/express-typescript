@@ -2,12 +2,7 @@ import { type NextFunction, type Request, type Response } from 'express'
 import { logger } from '../utils/winston'
 import { verifyAcessToken } from '../utils/jwt'
 
-export const errorHandling = (
-  err: any,
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void => {
+export const errorHandling = (err: any, req: Request, res: Response): void => {
   const message = err.message.split(' - ')[1]
   logger.error(err)
   res.status(500).json({
@@ -17,11 +12,7 @@ export const errorHandling = (
   })
 }
 
-export const notFound = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void => {
+export const notFound = (req: Request, res: Response): void => {
   res.status(404).json({
     error: 'Halaman tidak ditemukan',
     message: 'Halaman tidak ditemukan',
