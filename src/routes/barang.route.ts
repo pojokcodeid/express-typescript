@@ -6,13 +6,26 @@ import {
   insertDataBarang,
   updateDataBarang
 } from '../controllers/barang.contoller'
+import expressAsyncHandler from 'express-async-handler'
 import { autenticate } from '../controllers/error.controller'
 const barangRouter = Router()
 
-barangRouter.get('/barang', autenticate, getAllBarang)
-barangRouter.get('/barang/:id', autenticate, getDataBarangById)
-barangRouter.post('/barang', autenticate, insertDataBarang)
-barangRouter.put('/barang/:id', autenticate, updateDataBarang)
-barangRouter.delete('/barang/:id', autenticate, deleteDataBarang)
+barangRouter.get('/barang', autenticate, expressAsyncHandler(getAllBarang))
+barangRouter.get(
+  '/barang/:id',
+  autenticate,
+  expressAsyncHandler(getDataBarangById)
+)
+barangRouter.post('/barang', autenticate, expressAsyncHandler(insertDataBarang))
+barangRouter.put(
+  '/barang/:id',
+  autenticate,
+  expressAsyncHandler(updateDataBarang)
+)
+barangRouter.delete(
+  '/barang/:id',
+  autenticate,
+  expressAsyncHandler(deleteDataBarang)
+)
 
 export default barangRouter

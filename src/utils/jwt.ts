@@ -1,8 +1,7 @@
 import 'dotenv/config'
-import jsonWebToken, { JwtPayload } from 'jsonwebtoken'
-import UserType from '../types/user.type'
+import jsonWebToken from 'jsonwebtoken'
 
-const generateAccessToken = (user: UserType): string => {
+const generateAccessToken = (user: any): string => {
   return jsonWebToken.sign(user, String(process.env.JWT_SECRET), {
     expiresIn:
       process.env.JWT_EXPIRES_IN != null
@@ -11,7 +10,7 @@ const generateAccessToken = (user: UserType): string => {
   })
 }
 
-const generateRefreshToken = (user: UserType): string => {
+const generateRefreshToken = (user: any): string => {
   return jsonWebToken.sign(user, String(process.env.JWT_REFRESH_SCREET), {
     expiresIn:
       process.env.JWT_REFRESH_EXPIRES_IN != null
@@ -20,7 +19,7 @@ const generateRefreshToken = (user: UserType): string => {
   })
 }
 
-const verifyRefreshToken = (token: string): string | null | JwtPayload => {
+const verifyRefreshToken = (token: string): any => {
   try {
     return jsonWebToken.verify(token, String(process.env.JWT_REFRESH_SCREET))
   } catch (error) {
@@ -28,11 +27,11 @@ const verifyRefreshToken = (token: string): string | null | JwtPayload => {
   }
 }
 
-const parseJWT = (token: string): UserType => {
+const parseJWT = (token: string): any => {
   return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())
 }
 
-const verifyAcessToken = (token: string): string | null | JwtPayload => {
+const verifyAcessToken = (token: string): any => {
   try {
     return jsonWebToken.verify(token, String(process.env.JWT_SECRET))
   } catch (error) {
