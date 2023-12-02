@@ -11,7 +11,7 @@ export const registerUser = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<Response | undefined> => {
   try {
     const { error, value } = inputUserValidation(req.body)
     if (error != null) {
@@ -30,11 +30,11 @@ export const registerUser = async (
       message: 'Input data sukses',
       data: user
     })
-  } catch (error: Error | any) {
+  } catch (error: Error | unknown) {
     next(
       new Error(
         'Error od file src/controllers/user.controller.ts : registerUser - ' +
-          error.message
+          String((error as Error).message)
       )
     )
   }
@@ -44,7 +44,7 @@ export const loginUser = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<Response | undefined> => {
   try {
     const { error, value } = loginUserValidation(req.body)
     if (error != null) {
@@ -69,26 +69,27 @@ export const loginUser = async (
         data: null
       })
     }
-    const usr = {
-      id: user.id,
-      email: user.email,
-      nama: user.nama,
-      role: user.role
-    }
-    const acessToken = generateAccessToken(usr)
-    const refreshToken = generateRefreshToken(usr)
+    // const usr = {
+    //   id: user.user_id,
+    //   email: user.email,
+    //   nama: user.nama,
+    //   role: user.role
+    // }
+    user.password = 'xxxxxx'
+    const acessToken = generateAccessToken(user)
+    const refreshToken = generateRefreshToken(user)
     return res.status(200).json({
       error: null,
       message: 'Login sukses',
-      data: usr,
+      data: user,
       acessToken,
       refreshToken
     })
-  } catch (error: Error | any) {
+  } catch (error: Error | unknown) {
     next(
       new Error(
         'Error od file src/controllers/user.controller.ts : loginUser - ' +
-          error.message
+          String((error as Error).message)
       )
     )
   }
