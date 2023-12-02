@@ -2,7 +2,11 @@ import { type NextFunction, type Request, type Response } from 'express'
 import { logger } from '../utils/winston'
 import { verifyAcessToken } from '../utils/jwt'
 
-export const errorHandling = (err: any, req: Request, res: Response): void => {
+export const errorHandling = (
+  err: Error,
+  req: Request,
+  res: Response
+): void => {
   const message = err.message.split(' - ')[1]
   logger.error(err)
   res.status(500).json({
@@ -24,7 +28,7 @@ export const autenticate = (
   req: Request,
   res: Response,
   next: NextFunction
-): any => {
+): Response | void => {
   const authHeader = req.headers.authorization
   const token = authHeader?.split(' ')[1]
   if (token === undefined) {
