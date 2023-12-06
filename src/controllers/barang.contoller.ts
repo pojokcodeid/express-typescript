@@ -94,7 +94,7 @@ export const updateDataBarang = async (
     if (error != null) {
       return res.status(400).json({
         error: error.details[0].message,
-        message: 'Input data gagal',
+        message: 'Update data gagal',
         data: value
       })
     }
